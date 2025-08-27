@@ -1,6 +1,22 @@
-import { Heart, Leaf, Mail, MessageCircle, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { useState } from 'react';
+import { Heart, Leaf, Mail, MessageCircle, Twitter, Linkedin, Instagram, Check } from 'lucide-react';
 
 const Footer = () => {
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+
+  const handleTypeToggle = (type: string) => {
+    setSelectedTypes(prev => 
+      prev.includes(type) 
+        ? prev.filter(t => t !== type)
+        : [...prev, type]
+    );
+  };
+
+  const userTypes = [
+    { id: 'businesses', label: 'Businesses', icon: '🏢' },
+    { id: 'academics', label: 'Academics', icon: '🎓' },
+    { id: 'individuals', label: 'Individuals', icon: '👥' }
+  ];
   const footerLinks = [
     {
       title: "Platform",
@@ -73,16 +89,56 @@ const Footer = () => {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <h4 className="font-bold text-lg mb-3">Get Early Access</h4>
               <p className="opacity-80 mb-4">Be among the first to experience our platform.</p>
+              
+              {/* User Type Selection */}
+              <div className="mb-4">
+                <p className="text-sm opacity-90 mb-3">I'm interested as:</p>
+                <div className="space-y-2">
+                  {userTypes.map((type) => (
+                    <label 
+                      key={type.id}
+                      className="flex items-center gap-3 cursor-pointer group"
+                    >
+                      <div 
+                        className={`w-5 h-5 rounded border-2 border-white/40 flex items-center justify-center transition-all duration-200 ${
+                          selectedTypes.includes(type.id) 
+                            ? 'bg-primary border-primary' 
+                            : 'group-hover:border-white/60'
+                        }`}
+                        onClick={() => handleTypeToggle(type.id)}
+                      >
+                        {selectedTypes.includes(type.id) && (
+                          <Check className="w-3 h-3 text-white" />
+                        )}
+                      </div>
+                      <span className="flex items-center gap-2 text-sm opacity-90 group-hover:opacity-100 transition-opacity">
+                        <span className="text-lg">{type.icon}</span>
+                        {type.label}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Email Input */}
               <div className="flex gap-3">
                 <input 
                   type="email" 
                   placeholder="Your email"
                   className="flex-1 px-4 py-2 rounded-lg bg-white/20 border border-white/30 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary"
                 />
-                <button className="bg-primary hover:bg-primary-light px-4 py-2 rounded-lg font-medium transition-colors">
+                <button 
+                  className="bg-primary hover:bg-primary-light px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+                  disabled={selectedTypes.length === 0}
+                >
                   <Mail className="w-4 h-4" />
+                  <span className="hidden sm:inline">Join</span>
                 </button>
               </div>
+              
+              {selectedTypes.length === 0 && (
+                <p className="text-xs opacity-60 mt-2">Please select at least one category</p>
+              )}
             </div>
           </div>
 
