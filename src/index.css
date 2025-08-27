@@ -2,41 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Sustainly Green Design System - Playful, Eco-Friendly Colors
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base Colors */
+    --background: 45 100% 98%;
+    --foreground: 158 64% 15%;
 
+    /* Card Colors */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 158 64% 15%;
 
+    /* Popover Colors */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 158 64% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Vibrant Green */
+    --primary: 145 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 145 70% 55%;
+    --primary-glow: 145 70% 65%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Ocean Blue */
+    --secondary: 205 85% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 205 85% 65%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Accent Colors - Sunny Orange & Yellow */
+    --accent: 35 95% 60%;
+    --accent-foreground: 0 0% 100%;
+    --accent-yellow: 48 95% 65%;
+    --accent-orange: 25 95% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Muted Earth Tones */
+    --muted: 45 35% 92%;
+    --muted-foreground: 158 25% 45%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Nature Green Variations */
+    --nature-green: 120 45% 40%;
+    --nature-light: 95 40% 85%;
+    --earth-brown: 30 35% 55%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Utility Colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 145 30% 85%;
+    --input: 145 25% 90%;
+    --ring: 145 70% 45%;
 
-    --radius: 0.5rem;
+    /* Radius */
+    --radius: 1rem;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    --gradient-warm: linear-gradient(135deg, hsl(var(--accent-orange)), hsl(var(--accent-yellow)));
+    --gradient-nature: linear-gradient(135deg, hsl(var(--nature-green)), hsl(var(--primary-light)));
+    --gradient-ocean: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--primary)));
+    
+    /* Shadows */
+    --shadow-soft: 0 4px 20px hsl(var(--primary) / 0.15);
+    --shadow-warm: 0 8px 25px hsl(var(--accent) / 0.2);
+    --shadow-glow: 0 0 30px hsl(var(--primary-glow) / 0.3);
+
+    /* Animations */
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +134,103 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Playful Button Variants */
+  .btn-hero {
+    @apply bg-gradient-to-r from-primary to-secondary text-primary-foreground font-bold py-4 px-8 rounded-2xl shadow-lg;
+    @apply hover:scale-105 hover:shadow-glow active:scale-95;
+    transition: var(--transition-bounce);
+  }
+
+  .btn-warm {
+    @apply bg-gradient-to-r from-accent-orange to-accent-yellow text-accent-foreground font-semibold py-3 px-6 rounded-xl shadow-md;
+    @apply hover:scale-105 hover:shadow-warm active:scale-95;
+    transition: var(--transition-bounce);
+  }
+
+  .btn-nature {
+    @apply bg-gradient-to-r from-nature-green to-primary-light text-primary-foreground font-semibold py-3 px-6 rounded-xl shadow-md;
+    @apply hover:scale-105 hover:shadow-soft active:scale-95;
+    transition: var(--transition-bounce);
+  }
+
+  /* Card Variants */
+  .card-playful {
+    @apply bg-card rounded-2xl p-6 shadow-soft border border-border;
+    @apply hover:scale-105 hover:shadow-warm hover:-translate-y-2;
+    transition: var(--transition-bounce);
+  }
+
+  .card-gradient {
+    @apply rounded-2xl p-6 shadow-lg text-white;
+    @apply hover:scale-105 hover:shadow-glow hover:-translate-y-2;
+    transition: var(--transition-bounce);
+  }
+
+  /* Animation Classes */
+  .animate-bounce-soft {
+    animation: bounce-soft 2s infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out;
+  }
+}
+
+@layer utilities {
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .gradient-warm {
+    background: var(--gradient-warm);
+  }
+  
+  .gradient-nature {
+    background: var(--gradient-nature);
+  }
+  
+  .gradient-ocean {
+    background: var(--gradient-ocean);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-warm {
+    box-shadow: var(--shadow-warm);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
