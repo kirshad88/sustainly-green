@@ -1,32 +1,60 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowRight, Sparkles, Users, Leaf } from 'lucide-react';
-import heroImage from '@/assets/hero-eco-community.jpg';
+
 
 const HeroSection = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const [stars, setStars] = useState<Array<{id: number, x: number, y: number, delay: number, size: number}>>([]);
+
+  // Generate random stars on component mount
+  useEffect(() => {
+    const generateStars = () => {
+      const starArray = [];
+      for (let i = 0; i < 100; i++) {
+        starArray.push({
+          id: i,
+          x: Math.random() * 100,
+          y: Math.random() * 60, // Only in upper 60% of screen for sky effect
+          delay: Math.random() * 3,
+          size: Math.random() * 3 + 1
+        });
+      }
+      setStars(starArray);
+    };
+    generateStars();
+  }, []);
 
   return (
-    <section 
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url(${heroImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}
-    >
-      {/* Floating Icons */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
+      {/* Twinkling Stars Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <Leaf className="absolute top-20 left-20 text-primary-glow w-8 h-8 animate-float" />
+        {stars.map((star) => (
+          <div
+            key={star.id}
+            className="absolute bg-primary rounded-full opacity-70"
+            style={{
+              left: `${star.x}%`,
+              top: `${star.y}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              animation: `twinkle ${2 + star.delay}s ease-in-out infinite alternate`,
+              animationDelay: `${star.delay}s`
+            }}
+          />
+        ))}
+      </div>
+      {/* Floating Icons */}
+      <div className="absolute inset-0 pointer-events-none z-10">
+        <Leaf className="absolute top-20 left-20 text-primary w-8 h-8 animate-float" />
         <Sparkles className="absolute top-32 right-32 text-accent-yellow w-6 h-6 animate-bounce-soft" />
-        <Users className="absolute bottom-40 left-16 text-secondary-light w-10 h-10 animate-float" />
+        <Users className="absolute bottom-40 left-16 text-secondary w-10 h-10 animate-float" />
       </div>
 
-      <div className="container mx-auto px-6 text-center text-white relative z-10">
+      <div className="container mx-auto px-6 text-center text-foreground relative z-20">
         {/* Coming Soon Badge */}
-        <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-6 py-3 mb-8 animate-fade-in-up">
+        <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-full px-6 py-3 mb-8 animate-fade-in-up">
           <Sparkles className="w-5 h-5 text-accent-yellow animate-pulse" />
-          <span className="font-semibold text-lg">Coming Soon!</span>
+          <span className="font-semibold text-lg text-primary">Coming Soon!</span>
         </div>
 
         {/* Main Headline */}
@@ -67,25 +95,25 @@ const HeroSection = () => {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+          <div className="bg-primary/5 backdrop-blur-sm rounded-2xl p-6 border border-primary/10">
             <div className="text-3xl font-bold text-accent-yellow mb-2">10K+</div>
-            <div className="text-lg font-medium">Community Members</div>
+            <div className="text-lg font-medium text-foreground">Community Members</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <div className="text-3xl font-bold text-primary-glow mb-2">500+</div>
-            <div className="text-lg font-medium">Eco Products</div>
+          <div className="bg-primary/5 backdrop-blur-sm rounded-2xl p-6 border border-primary/10">
+            <div className="text-3xl font-bold text-primary mb-2">500+</div>
+            <div className="text-lg font-medium text-foreground">Eco Products</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <div className="text-3xl font-bold text-secondary-light mb-2">50+</div>
-            <div className="text-lg font-medium">Partner Companies</div>
+          <div className="bg-primary/5 backdrop-blur-sm rounded-2xl p-6 border border-primary/10">
+            <div className="text-3xl font-bold text-secondary mb-2">50+</div>
+            <div className="text-lg font-medium text-foreground">Partner Companies</div>
           </div>
         </div>
       </div>
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
+        <div className="w-6 h-10 border-2 border-primary/50 rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-primary/70 rounded-full mt-2 animate-pulse"></div>
         </div>
       </div>
     </section>
